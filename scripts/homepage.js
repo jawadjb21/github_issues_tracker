@@ -3,46 +3,33 @@ let singleIssue = "https://phi-lab-server.vercel.app/api/v1/lab/issue/";
 let searchIssue = "https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=";
 
 let allIssuesData = [];
-let openIssues = [];
-let closedIssues = [];
+let issue_count = document.getElementById("issue_count");
 
-const loadAllIssues = async () => {
+
+const loadAllIssues = async (status) => {
     const issuesRes = await fetch(allIssues);
     const issuesJSON = await issuesRes.json();
     allIssuesData = issuesJSON.data;
-    displayIssues(allIssuesData);
+    activeBtn(status);
+    displayIssues(allIssuesData, status);
 }
 
 function displayIssues(issues, status = "all") {
     const container = document.getElementById("issue_container");
     container.innerHTML = "";
     if (status === "all") {
+        issue_count.innerText = issues.length;
         issues.forEach(issue => {
             container.appendChild(createIssueCard(issue))
         });
     } else {
         // Refactor array using filter
-        openIssues.length = 0;
-        closedIssues.length = 0;
+        const filtered = issues.filter(issue => issue.status === status);
+        issue_count.innerText = filtered.length;
 
-        issues.forEach(issue => {
-            if (issue.status === 'open') {
-                openIssues.push(issue);
-            } else if (issue.status === 'closed') {
-                closedIssues.push(issue);
-            }
-        }
-        )
-        if (status === "open") {
-            openIssues.forEach(issue => {
-                container.appendChild(createIssueCard(issue));
-            })
-        }
-        else if (status === "closed") {
-            closedIssues.forEach(issue => {
-                container.appendChild(createIssueCard(issue));
-            })
-        };
+        filtered.forEach(issue => {
+            container.appendChild(createIssueCard(issue));
+        });
     };
 }
 
@@ -64,12 +51,80 @@ function createIssueCard(issue) {
             
         </div>
         <hr class="text-secondary">
-        <p class="text-secondary">#${issue.id} by ${issue.author}</p>
-        <p class="text-secondary">${issue.createdAt}</p>
-        `;
-    card.classList.add("bg-white", "flex", "flex-col", "gap-2", "rounded-2xl", "shadow-sm", "pt-.9", "pb-2", "px-5", "space-y-2");
+        <div class="flex justify-between items-center">
+            <div class="flex flex-col justify-between items-start">
+                <p class="text-secondary">#${issue.id} by ${issue.author}</p>
+                <p class="text-secondary">${issue.createdAt}</p>
+            </div>
+            <i onclick="loadIssueDetails(${issue.id})" class="fa-solid fa-circle-info"></i>
+        </div>
+            `;
+    card.classList.add("bg-white", "flex", "flex-col", "gap-2", "rounded-2xl", "shadow-sm", "pt-[.9]", "pb-2", "px-5", "space-y-2");
+
     return card;
 }
 
+async function loadIssueDetails(id) {
+    const url = singleIssue + id;
+    const detailsRes = await fetch(url);
+    const detailsJSON = await detailsRes.json();
+    displayDetails(detailsJSON.data);
+}
+
+function displayDetails(issue) {
+    const container = document.getElementById("details_container");
+    const status = issue.status === "open" ? "Opened" : "Closed";
+    const statusColor = issue.status === "open" ? "green" : "border-purple";
+    const priorityColor = issue.priority === "high" ? "red" : issue.priority === "medium" ? "yellow" : "gray";
+
+    container.innerHTML = `
+    <h6 class="font-semibold text-xl text-black h-10 mb-4">${issue.title}</h6>
+    <div class="flex justify-start items-center gap-3">
+        <p class="text-white bg-${statusColor}-500 rounded-xl text-center p-2">${status}</p>
+        <p class="text-secondary">${status} by ${issue.author}</p>
+    </div>
+    <div class="flex gap-1 justify-start items-center">
+            <button class="flex gap-1 justify-center items-center border border-red-300 rounded-xl p-2"><i class="fa-solid fa-bug"></i> <span class="text-red-500">${issue.labels[0]}</span></button>
+            ${issue.labels[1] ? `<button class="flex gap-1 justify-center items-center border border-yellow-300 rounded-xl p-2"><span class="text-yellow-500">${issue.labels[1]}</span></button>` : ""}
+            
+    </div>
+    <p class="text-secondary h-25">${issue.description}</p>
+    <div class="flex justify-around items-center w-full bg-gray-300 px-3 py-5 rounded-xl shadow-sm">
+        <div class="flex flex-col gap-1">
+            <p class="text-secondary">Assignee:</p>
+            <h6 class="font-medium text-black">${issue.assignee}</h6>
+        </div>
+        <div class="flex flex-col gap-1">
+            <p class="text-secondary">Priority:</p>
+             <p class="text-white bg-${priorityColor}-500 rounded-xl text-center">${issue.priority.toUpperCase()}</p>
+        </div>
+    `
+
+    container.className = "flex flex-col gap-y-2 justify-center items-start shadow-xl p-5 rounded-xl";
+
+    document.getElementById("word_modal").showModal();
+
+}
+
+const activeBtn = (status = "all") => {
+    removeActiveBtn();
+    const active = document.getElementById(`btn_${status}`);
+    active.classList.add("active");
+}
+
+const removeActiveBtn = () => {
+    // Fetches all buttons with this pattern, maybe regex.
+    const tabButtons = document.querySelectorAll("[id^='btn_']");
+    tabButtons.forEach(btn => btn.classList.remove("active"));
+}
+
+document.getElementById("btn_all").addEventListener("click", () => loadAllIssues("all"));
+document.getElementById("btn_all_nav").addEventListener("click", () => loadAllIssues("all"));
+
+document.getElementById("btn_open").addEventListener("click", () => loadAllIssues("open"));
+document.getElementById("btn_open_nav").addEventListener("click", () => loadAllIssues("open"));
+
+document.getElementById("btn_closed").addEventListener("click", () => loadAllIssues("closed"));
+document.getElementById("btn_closed_nav").addEventListener("click", () => loadAllIssues("closed"));
 
 loadAllIssues()

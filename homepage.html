@@ -44,8 +44,9 @@
                         </div>
                         <ul tabindex="-1"
                             class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                            <li><a href="./open.html">Open Issues</a></li>
-                            <li><a href="./closed.html">Closed Issues</a></li>
+                            <li id="btn_all_nav"><a>All Issues</a></li>
+                            <li id="btn_open_nav"><a>Open Issues</a></li>
+                            <li id="btn_closed_nav"><a>Closed Issues</a></li>
                         </ul>
                     </div>
                     <div class="flex gap-.05 justify-center items-center">
@@ -82,7 +83,7 @@
                 <div id="details_left" class="flex gap-2 justify-center items-center">
                     <img src="./assets/Aperture.png" alt="" class="h-8">
                     <div>
-                        <h4 id="issue_count" class="font-bold text-xl text-black">50 Issues</h4>
+                        <h4 class="font-bold text-xl text-black"><span id="issue_count">50</span> Issues</h4>
                         <p class="text-secondary">Track and manage your project issues</p>
                     </div>
                 </div>
@@ -95,9 +96,23 @@
             </div>
             <hr class="text-secondary">
             <div id="issue_container" class="grid grid-cols-2 lg:grid-cols-4 gap-3 bg-gray-100 p-3">
-
+                <section id="spinner" class="flex justify-center items-center py-10 hidden">
+                    <span class="loading loading-infinity loading-xl"></span>
+                </section>
             </div>
         </section>
+
+        <dialog id="word_modal" class="modal modal-bottom sm:modal-middle">
+            <div class="modal-box">
+                <div id="details_container"></div>
+                <div class="modal-action">
+                    <form method="dialog">
+                        <!-- if there is a button in form, it will close the modal -->
+                        <button class="btn btn-neutral">Close</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
     </main>
 </body>
 
