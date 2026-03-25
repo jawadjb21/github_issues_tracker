@@ -21,8 +21,12 @@ function displayIssues(issues, status = "all", search = "no") {
     container.innerHTML = "";
 
     // Changed to accommodate the function call, as now we're calling displayIssue directly.
-    if(search.toLowerCase() === 'no'){
-    activeBtn(status);
+    if (search.toLowerCase() === 'no') {
+        activeBtn(status);
+    }
+
+    if (search === "yes") {
+        removeActiveBtn();
     }
 
     if (status === "all") {
@@ -136,11 +140,11 @@ const manageSpinner = (load_status) => {
 }
 
 const fetchSearch = async (word) => {
-    if(!word){
+    if (!word) {
         displayIssues(allIssuesData, "all");
         return;
     }
-    
+
     const searchTerm = searchIssue + word;
     const searchRes = await fetch(searchTerm);
     const searchJSON = await searchRes.json();
