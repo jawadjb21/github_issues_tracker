@@ -11,3 +11,8 @@
 .text-secondary {
   color: var(--text-secondary-color);
 }
+
+.active{
+  background-color: black;
+  color: white;
+}

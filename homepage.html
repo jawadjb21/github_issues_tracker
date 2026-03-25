@@ -69,8 +69,35 @@
             </div>
         </nav>
     </header>
-    <main>
 
+    <main class="mt-15 mx-8 flex flex-col gap-4">
+        <section id="tabs_display" class="border border-gray-300 p-6 flex justify-start items-center gap-3">
+            <button id="btn_all" class="btn btn-outline btn-neutral border-[#64748B] text-secondary active">All</button>
+            <button id="btn_open" class="btn btn-outline btn-neutral border-[#64748B] text-secondary">Open</button>
+            <button id="btn_closed" class="btn btn-outline btn-neutral border-[#64748B] text-secondary">Closed</button>
+        </section>
+
+        <section id="current_tab" class="border border-gray-300">
+            <div id="details" class="flex justify-between items-center p-6">
+                <div id="details_left" class="flex gap-2 justify-center items-center">
+                    <img src="./assets/Aperture.png" alt="" class="h-8">
+                    <div>
+                        <h4 id="issue_count" class="font-bold text-xl text-black">50 Issues</h4>
+                        <p class="text-secondary">Track and manage your project issues</p>
+                    </div>
+                </div>
+                <div id="details_right">
+                    <ul class="list-disc flex gap-8 justify-center items-center">
+                        <li class="font-semibold marker:text-green-600 marker:text-xl">Open</li>
+                        <li class="font-semibold marker:text-purple-600 marker:text-xl">Closed</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="text-secondary">
+            <div id="issue_container" class="grid grid-cols-2 lg:grid-cols-4 gap-3 bg-gray-100 p-3">
+
+            </div>
+        </section>
     </main>
 </body>
 
