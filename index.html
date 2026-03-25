@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GitHub Issues Tracker</title>
     <!-- Scripts -->
+    <script src="./scripts/index.js" defer></script>
 
     <!-- Style -->
     <link rel="stylesheet" href="./styles/index.css">
@@ -22,14 +23,57 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
 
-    <!-- Icon -->\
+    <!-- Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body class="geist">
+<body class="geist min-h-screen max-w-md mx-auto">
+    <section class="flex flex-col justify-center items-center">
+        <div id="banner" class="flex flex-col gap-1 justify-center items-center text-center mt-6">
+            <img src="./assets/github-logo.png" alt="A logo of the github company">
+            <h2 class="font-semibold pt-6 text-4xl space">GitHub Issues Tracker</h2>
+            <p class="text-[#64748B]">Sign in to manage your issues</p>
+        </div>
 
+        <div id="login_fields">
+            <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+                <legend class="fieldset-legend">Login</legend>
+
+                <label class="label font-bold text-black">Username or email address</label>
+                <input id="email" autofocus class="input color-[#64748B]" placeholder="" type="email" />
+
+                <div class="flex justify-end"><a class="link link-hover text-blue-500">Forgot password?</a></div>
+
+                <label class="label font-bold text-black">Password</label>
+                <input id="password" class="input color-[#64748B]" placeholder="" type="password" />
+
+                <button class="btn bg-green-600 text-white mt-6 mb-6">Sign In</button>
+            </fieldset>
+
+            <div class="flex items-center gap-2 my-4">
+                <hr class="flex-1 border-base-300">
+                <span class="text-sm text-black">OR</span>
+                <hr class="flex-1 border-base-300">
+            </div>
+
+            <!-- 
+            <div class="flex flex-col flex-1">
+                <button class="btn btn-outline bg-gray-400 text-white mt-2 mb-2">Sign In With Google</button>
+                <button class="btn btn-outline bg-gray-400 text-white mb-2">Sign In With Apple</button>
+            </div> 
+            -->
+
+            <div class="flex flex-col flex-1 text-center">
+                <p class="text-[#64748B] mb-2">Demo:</p>
+                <div class="bg-gray-300 flex flex-col gap-1 justify-center items-center px-3 py-10 rounded-md">
+                    <p class="color-[#64748B]"><span class="font-bold text-black">Username:</span> admin</p>
+                    <p class="color-[#64748B]"><span class="font-bold text-black">Password:</span> admin123</p>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>
