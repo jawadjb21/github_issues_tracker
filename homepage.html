@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GitHub Issues Tracker</title>
     <!-- Scripts -->
-    <script src="./scripts/index.js" defer></script>
+    <script src="./scripts/homepage.js" defer></script>
 
     <!-- Style -->
-    <link rel="stylesheet" href="./styles/index.css">
+    <link rel="stylesheet" href="./styles/homepage.css">
     <!-- Icon -->
     <link rel="shortcut icon" href="./assets/github-logo.png" type="image/x-icon">
 
@@ -29,8 +29,49 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body class="geist min-h-screen max-w-md mx-auto">
-    Hello
+<body class="geist mx-4">
+    <header class="sticky top-0 z-50">
+        <nav>
+            <div class="navbar bg-base-100 shadow-sm">
+                <div class="navbar-start">
+                    <div class="dropdown">
+                        <div tabindex="0" role="button" class="btn btn-ghost">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h8m-8 6h16" />
+                            </svg>
+                        </div>
+                        <ul tabindex="-1"
+                            class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                            <li><a href="./open.html">Open Issues</a></li>
+                            <li><a href="./closed.html">Closed Issues</a></li>
+                        </ul>
+                    </div>
+                    <div class="flex gap-.05 justify-center items-center">
+                        <img src="./assets/github-logo.png" alt="Logo of GitHub" class="h-8">
+                        <a class="btn btn-ghost font-bold text-xl">GitHub Issues Tracker</a>
+                    </div>
+                </div>
+                <div class="navbar-end">
+                    <div class="join">
+                        <div>
+                            <label class="input validator join-item">
+                                <input class="text-secondary" type="text" placeholder="Search Issues..." required />
+                            </label>
+                            <div class="validator-hint hidden">Enter valid email address</div>
+                        </div>
+                        <button id="search_btn" class="btn btn-neutral join-item"><i
+                                class="fa-solid fa-magnifying-glass text-secondary"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+
+    </main>
 </body>
 
 </html>
