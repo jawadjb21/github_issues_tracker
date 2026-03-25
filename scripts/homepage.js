@@ -16,12 +16,14 @@ const loadAllIssues = async (status) => {
     manageSpinner(false);
 }
 
-function displayIssues(issues, status = "all") {
+function displayIssues(issues, status = "all", search = "no") {
     const container = document.getElementById("issue_container");
     container.innerHTML = "";
-    
+
     // Changed to accommodate the function call, as now we're calling displayIssue directly.
+    if(search.toLowerCase() === 'no'){
     activeBtn(status);
+    }
 
     if (status === "all") {
         issue_count.innerText = issues.length;
@@ -102,7 +104,7 @@ function displayDetails(issue) {
         </div>
         <div class="flex flex-col gap-1">
             <p class="text-secondary">Priority:</p>
-             <p class="text-white bg-${priorityColor}-500 rounded-xl text-center">${issue.priority.toUpperCase()}</p>
+             <p class="text-white bg-${priorityColor}-500 rounded-xl text-center px-3">${issue.priority.toUpperCase()}</p>
         </div>
     </div>
     `;
@@ -133,6 +135,25 @@ const manageSpinner = (load_status) => {
     }
 }
 
+const fetchSearch = async (word) => {
+    if(!word){
+        displayIssues(allIssuesData, "all");
+        return;
+    }
+    
+    const searchTerm = searchIssue + word;
+    const searchRes = await fetch(searchTerm);
+    const searchJSON = await searchRes.json();
+    displayIssues(searchJSON.data, "all", "yes");
+}
+
+// const searchIssues = async (word) => {
+//     const filtered = allIssuesData.filter(issue => {
+//         return (issue.title?.toLowerCase().includes(word) || issue.description?.toLowerCase().includes(word))
+//     });
+//     displayIssues(filtered, "all", "yes");
+// }
+
 // Refactored it to displayIssue directly to avoid having to fetch on each click. Since, we're already fetching once and retrieving all data.
 document.getElementById("btn_all").addEventListener("click", () => displayIssues(allIssuesData, "all"));
 document.getElementById("btn_all_nav").addEventListener("click", () => displayIssues(allIssuesData, "all"));
@@ -142,6 +163,8 @@ document.getElementById("btn_open_nav").addEventListener("click", () => displayI
 
 document.getElementById("btn_closed").addEventListener("click", () => displayIssues(allIssuesData, "closed"));
 document.getElementById("btn_closed_nav").addEventListener("click", () => displayIssues(allIssuesData, "closed"));
+
+document.getElementById("btn_search").addEventListener("click", () => fetchSearch(document.getElementById("search_input").value.trim().toLowerCase()));
 
 // Fetch Data.
 loadAllIssues()
