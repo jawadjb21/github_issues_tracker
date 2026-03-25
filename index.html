@@ -30,7 +30,7 @@
 </head>
 
 <body class="geist min-h-screen max-w-md mx-auto">
-    <section class="flex flex-col justify-center items-center">
+    <section id="login_page" class="flex flex-col justify-center items-center">
         <div id="banner" class="flex flex-col gap-1 justify-center items-center text-center mt-6">
             <img src="./assets/github-logo.png" alt="A logo of the github company">
             <h2 class="font-semibold pt-6 text-4xl space">GitHub Issues Tracker</h2>
@@ -42,14 +42,14 @@
                 <legend class="fieldset-legend">Login</legend>
 
                 <label class="label font-bold text-black">Username or email address</label>
-                <input id="email" autofocus class="input color-[#64748B]" placeholder="" type="email" />
+                <input id="username" autofocus class="input color-[#64748B]" placeholder="" type="email" />
 
                 <div class="flex justify-end"><a class="link link-hover text-blue-500">Forgot password?</a></div>
 
                 <label class="label font-bold text-black">Password</label>
                 <input id="password" class="input color-[#64748B]" placeholder="" type="password" />
 
-                <button class="btn bg-green-600 text-white mt-6 mb-6">Sign In</button>
+                <button id="btn_login" class="btn bg-green-600 text-white mt-6 mb-6">Sign In</button>
             </fieldset>
 
             <div class="flex items-center gap-2 my-4">
