@@ -7,16 +7,22 @@ let issue_count = document.getElementById("issue_count");
 
 
 const loadAllIssues = async (status) => {
+    // manageSpinner() here as displayIssues is synchronous anyway.
+    manageSpinner(true);
     const issuesRes = await fetch(allIssues);
     const issuesJSON = await issuesRes.json();
     allIssuesData = issuesJSON.data;
-    activeBtn(status);
     displayIssues(allIssuesData, status);
+    manageSpinner(false);
 }
 
 function displayIssues(issues, status = "all") {
     const container = document.getElementById("issue_container");
     container.innerHTML = "";
+    
+    // Changed to accommodate the function call, as now we're calling displayIssue directly.
+    activeBtn(status);
+
     if (status === "all") {
         issue_count.innerText = issues.length;
         issues.forEach(issue => {
@@ -74,7 +80,7 @@ async function loadIssueDetails(id) {
 function displayDetails(issue) {
     const container = document.getElementById("details_container");
     const status = issue.status === "open" ? "Opened" : "Closed";
-    const statusColor = issue.status === "open" ? "green" : "border-purple";
+    const statusColor = issue.status === "open" ? "green" : "purple";
     const priorityColor = issue.priority === "high" ? "red" : issue.priority === "medium" ? "yellow" : "gray";
 
     container.innerHTML = `
@@ -98,7 +104,8 @@ function displayDetails(issue) {
             <p class="text-secondary">Priority:</p>
              <p class="text-white bg-${priorityColor}-500 rounded-xl text-center">${issue.priority.toUpperCase()}</p>
         </div>
-    `
+    </div>
+    `;
 
     container.className = "flex flex-col gap-y-2 justify-center items-start shadow-xl p-5 rounded-xl";
 
@@ -118,13 +125,23 @@ const removeActiveBtn = () => {
     tabButtons.forEach(btn => btn.classList.remove("active"));
 }
 
-document.getElementById("btn_all").addEventListener("click", () => loadAllIssues("all"));
-document.getElementById("btn_all_nav").addEventListener("click", () => loadAllIssues("all"));
+const manageSpinner = (load_status) => {
+    if (load_status === true) {
+        document.getElementById("spinner").classList.remove("hidden");
+    } else {
+        document.getElementById("spinner").classList.add("hidden");
+    }
+}
 
-document.getElementById("btn_open").addEventListener("click", () => loadAllIssues("open"));
-document.getElementById("btn_open_nav").addEventListener("click", () => loadAllIssues("open"));
+// Refactored it to displayIssue directly to avoid having to fetch on each click. Since, we're already fetching once and retrieving all data.
+document.getElementById("btn_all").addEventListener("click", () => displayIssues(allIssuesData, "all"));
+document.getElementById("btn_all_nav").addEventListener("click", () => displayIssues(allIssuesData, "all"));
 
-document.getElementById("btn_closed").addEventListener("click", () => loadAllIssues("closed"));
-document.getElementById("btn_closed_nav").addEventListener("click", () => loadAllIssues("closed"));
+document.getElementById("btn_open").addEventListener("click", () => displayIssues(allIssuesData, "open"));
+document.getElementById("btn_open_nav").addEventListener("click", () => displayIssues(allIssuesData, "open"));
 
+document.getElementById("btn_closed").addEventListener("click", () => displayIssues(allIssuesData, "closed"));
+document.getElementById("btn_closed_nav").addEventListener("click", () => displayIssues(allIssuesData, "closed"));
+
+// Fetch Data.
 loadAllIssues()
